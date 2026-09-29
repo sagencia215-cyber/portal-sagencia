@@ -13,9 +13,9 @@
       "id": "gourmet-premium",
       "nome": "Gourmet Premium",
       "descricao": "Pedidos por WhatsApp, Pix e cartão, com painel da loja em tempo real, pra lojas de picolé e doces gourmet.",
-      "status": "em-desenvolvimento",
+      "status": "em-producao",
       "cliente": "Picolé Gourmet Naide",
-      "url": ""
+      "url": "https://barbearia-premium-gourmet-premium.taufkg.easypanel.host/login"
     },
     {
       "id": "academia-saas",
