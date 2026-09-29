@@ -1,0 +1,29 @@
+{
+  "_comentario": "Edite este arquivo pra atualizar o portal. Pra cada app: nome, descricao, status ('em-producao' ou 'em-desenvolvimento'), cliente (pode deixar vazio), url (o endereço do sistema; deixe vazio '' se ainda não tiver). Depois de editar, salve o arquivo e rode o publicar-no-github.bat pra atualizar o site.",
+  "apps": [
+    {
+      "id": "validadepro",
+      "nome": "ValidadePro",
+      "descricao": "Controle de validade por lote + marketing automático (promoções, artes e divulgação) pra lojas de material odontológico.",
+      "status": "em-producao",
+      "cliente": "SOMEDICA",
+      "url": "https://barbearia-premium-validadepro.taufkg.easypanel.host"
+    },
+    {
+      "id": "gourmet-premium",
+      "nome": "Gourmet Premium",
+      "descricao": "Pedidos por WhatsApp, Pix e cartão, com painel da loja em tempo real, pra lojas de picolé e doces gourmet.",
+      "status": "em-desenvolvimento",
+      "cliente": "Picolé Gourmet Naide",
+      "url": ""
+    },
+    {
+      "id": "academia-saas",
+      "nome": "Academia SaaS",
+      "descricao": "Gestão completa de academia: painel do dono, do professor e do aluno.",
+      "status": "em-desenvolvimento",
+      "cliente": "",
+      "url": ""
+    }
+  ]
+}

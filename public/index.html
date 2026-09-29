@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAgência — Sistemas</title>
+<style>
+  :root{
+    --dark:#0d3b46;
+    --dark2:#123f4b;
+    --light:#f6f8f7;
+    --card:#ffffff;
+    --accent:#1f8a99;
+    --accent-light:#e3f5f3;
+    --text:#1a2a2e;
+    --text-soft:#4a5a60;
+    --ok-bg:#e3f5ee;
+    --ok-fg:#1a7a53;
+    --dev-bg:#fdf3e3;
+    --dev-fg:#9a6a12;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:'DM Sans', Arial, sans-serif;
+    background:var(--light);
+    color:var(--text);
+  }
+  header{
+    background:var(--dark);
+    color:#fff;
+    padding:56px 32px 72px;
+    text-align:center;
+  }
+  header h1{
+    margin:0 0 12px;
+    font-size:40px;
+    font-weight:700;
+    letter-spacing:.5px;
+  }
+  header p{
+    margin:0;
+    font-size:18px;
+    color:#bcd6da;
+  }
+  main{
+    max-width:1100px;
+    margin:-40px auto 0;
+    padding:0 24px 80px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+    gap:24px;
+  }
+  .card{
+    background:var(--card);
+    border-radius:20px;
+    padding:32px;
+    box-shadow:0 12px 32px rgba(13,59,70,.10);
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .card h2{
+    margin:0;
+    font-size:24px;
+    font-weight:700;
+    color:var(--dark);
+  }
+  .card p.desc{
+    margin:0;
+    font-size:16px;
+    line-height:1.5;
+    color:var(--text-soft);
+    flex:1;
+  }
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:600;
+    padding:6px 12px;
+    border-radius:999px;
+    width:fit-content;
+  }
+  .badge.ok{background:var(--ok-bg); color:var(--ok-fg)}
+  .badge.dev{background:var(--dev-bg); color:var(--dev-fg)}
+  .cliente{font-size:14px; color:#8a9a9f}
+  .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:4px}
+  .btn{
+    display:inline-block;
+    text-decoration:none;
+    font-size:15px;
+    font-weight:600;
+    padding:12px 20px;
+    border-radius:10px;
+    text-align:center;
+  }
+  .btn.primary{background:var(--accent); color:#fff}
+  .btn.primary:hover{background:#186f7c}
+  .btn.secondary{background:var(--light); color:var(--dark); border:1px solid #dfe6e6}
+  .btn.secondary:hover{background:#eef2f1}
+  .btn.disabled{background:#eef2f1; color:#9aa8ab; cursor:default}
+  footer{
+    text-align:center;
+    padding:32px;
+    color:#8a9a9f;
+    font-size:14px;
+  }
+  .empty{
+    text-align:center;
+    color:#8a9a9f;
+    font-size:16px;
+    padding:40px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>SAgência</h1>
+    <p>Sistemas sob medida pra pequenos negócios</p>
+  </header>
+  <main>
+    <div id="grid" class="grid"></div>
+  </main>
+  <footer>Portal interno da SAgência</footer>
+
+<script>
+async function carregar() {
+  const grid = document.getElementById('grid');
+  try {
+    const resp = await fetch('apps.json', { cache: 'no-store' });
+    const data = await resp.json();
+    const apps = data.apps || [];
+    if (!apps.length) {
+      grid.innerHTML = '<p class="empty">Nenhum app cadastrado ainda.</p>';
+      return;
+    }
+    grid.innerHTML = apps.map(renderCard).join('');
+  } catch (e) {
+    grid.innerHTML = '<p class="empty">Não foi possível carregar a lista de apps agora.</p>';
+  }
+}
+
+function renderCard(app) {
+  const emProducao = app.status === 'em-producao';
+  const badge = emProducao
+    ? '<span class="badge ok">Em produção</span>'
+    : '<span class="badge dev">Em desenvolvimento</span>';
+  const cliente = app.cliente ? `<p class="cliente">Cliente: ${escapeHtml(app.cliente)}</p>` : '';
+  const abrirBtn = (emProducao && app.url)
+    ? `<a class="btn primary" href="${escapeAttr(app.url)}" target="_blank" rel="noopener">Abrir sistema</a>`
+    : `<span class="btn disabled">Em breve</span>`;
+  const materiaisHref = `materiais/${encodeURIComponent(app.id)}/`;
+  const materiaisBtn = `<a class="btn secondary" href="${materiaisHref}" target="_blank" rel="noopener">Materiais</a>`;
+  return `
+    <div class="card">
+      ${badge}
+      <h2>${escapeHtml(app.nome)}</h2>
+      ${cliente}
+      <p class="desc">${escapeHtml(app.descricao || '')}</p>
+      <div class="actions">
+        ${abrirBtn}
+        ${materiaisBtn}
+      </div>
+    </div>
+  `;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escapeAttr(s) { return escapeHtml(s); }
+
+carregar();
+</script>
+</body>
+</html>
