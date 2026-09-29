@@ -21,9 +21,10 @@
       "id": "academia-saas",
       "nome": "Academia SaaS",
       "descricao": "Gestão completa de academia: painel do dono, do professor e do aluno.",
-      "status": "em-desenvolvimento",
+      "status": "em-producao",
       "cliente": "",
-      "url": ""
+      "url": "http://187.127.37.58:8080
+"
     }
   ]
 }
